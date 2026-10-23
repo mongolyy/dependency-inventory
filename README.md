@@ -1,0 +1,44 @@
+# dependency-inventory
+
+GitHub の Dependency graph（SBOM API）を使って、自分や自分の org の全リポジトリが使っているライブラリとバージョンを 1 つの CSV にまとめるツールです。
+
+サプライチェーン攻撃が起きたときに「侵害されたパッケージ `xxx@1.2.3` を使っているリポジトリはどれか」をすぐ答えられるようにすることが目的です。
+
+## 必要なもの
+
+- [GitHub CLI](https://cli.github.com/)（`gh auth login` 済み。private リポジトリを読むには `repo` スコープ、org を読むには `read:org` が必要です）
+- bash（Windows では Git Bash で動きます）
+
+jq は不要です（gh に内蔵の `--jq` を使います）。
+
+## 使い方
+
+```bash
+./collect-deps.sh mongolyy            # 自分のアカウント
+./collect-deps.sh mongolyy my-org     # 複数のアカウント / org
+```
+
+| 環境変数 | 意味 |
+|---|---|
+| `OUT_DIR=path` | 出力先（既定: `out/`） |
+| `INCLUDE_FORKS=1` | fork したリポジトリも含める |
+| `INCLUDE_ARCHIVED=1` | アーカイブ済みリポジトリも含める |
+
+## 出力
+
+- `out/dependencies.csv`: `owner,repo,ecosystem,package,version,purl,license`
+- `out/errors.csv`: 取得できなかったリポジトリと理由
+
+### 検索の例
+
+```bash
+# 特定パッケージを使っているリポジトリ
+grep '"axios"' out/dependencies.csv
+```
+
+## 制約
+
+- **HTTP 404**: そのリポジトリで Dependency graph が無効か、対応する依存ファイルがありません。private リポジトリは Settings → Code security で Dependency graph を有効にしてください（org 単位で一括有効化もできます）。
+- **言語のバージョン**（Node.js、Go、Python 本体など）は Dependency graph の対象外のため取れません。
+- **直接の依存と推移的な依存の区別**は SBOM API が返さないため、区別していません。
+- lockfile が無いリポジトリでは、バージョンが `^1.2.3` のような範囲指定のまま出ることがあります。

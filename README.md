@@ -36,6 +36,8 @@ jq は不要です（gh に内蔵の `--jq` を使います）。
 grep '"axios"' out/dependencies.csv
 ```
 
+CSV を作る前にすぐ当たりをつけたいときは、GitHub のコード検索も使えます。検索窓に貼るクエリのテンプレートは [docs/github-search.md](docs/github-search.md) にあります（大きな lockfile は検索の対象外なので、確実に調べるには CSV を使ってください）。
+
 ## テスト
 
 [bats-core](https://github.com/bats-core/bats-core) と shellcheck を使います。`test/bin/gh` は本物の GitHub に通信しない偽の gh で、`test/fixtures/` のファイルを返します（jq が必要です）。push と pull request のたびに GitHub Actions でも実行されます。

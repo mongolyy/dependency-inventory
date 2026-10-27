@@ -47,6 +47,8 @@ for owner in "$@"; do
     printf '%s/%s ... ' "$owner" "$repo" >&2
 
     # リポジトリ自身 (DESCRIBES の対象) を除いた全パッケージを CSV 行にする
+    # ($s や $roots は jq の変数なので、シェルで展開しないのが正しい)
+    # shellcheck disable=SC2016
     jq_filter='
       .sbom as $s
       | [$s.relationships[]? | select(.relationshipType == "DESCRIBES") | .relatedSpdxElement] as $roots

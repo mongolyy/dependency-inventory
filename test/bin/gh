@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# テスト用の偽 gh。本物の GitHub には通信せず、test/fixtures のファイルを返す。
+#
+#   gh repo list OWNER ...      -> $GH_FIXTURES/repos-OWNER.txt を出力
+#   gh api repos/O/R/... --jq F -> $GH_FIXTURES/sbom-O-R.json に jq -r F をかけて出力
+#                                  (ファイルが無ければ HTTP 404 で失敗)
+#
+# 受け取った引数は $GH_CALLS に 1 行ずつ追記する (テストで確認するため)。
+
+set -euo pipefail
+
+[ -n "${GH_CALLS:-}" ] && printf '%s\n' "$*" >> "$GH_CALLS"
+
+case "${1:-}" in
+  repo)
+    f="$GH_FIXTURES/repos-$3.txt"
+    [ -f "$f" ] && cat "$f"
+    exit 0
+    ;;
+  api)
+    path=$2
+    shift 2
+    filter=""
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --jq) filter=$2; shift 2 ;;
+        *) shift ;;
+      esac
+    done
+    IFS=/ read -r _ owner repo _ <<< "$path"
+    f="$GH_FIXTURES/sbom-$owner-$repo.json"
+    if [ ! -f "$f" ]; then
+      echo "gh: Not Found (HTTP 404)" >&2
+      exit 1
+    fi
+    if [ -n "$filter" ]; then
+      jq -r "$filter" "$f"
+    else
+      cat "$f"
+    fi
+    ;;
+  *)
+    echo "fake gh: unsupported command: $*" >&2
+    exit 1
+    ;;
+esac

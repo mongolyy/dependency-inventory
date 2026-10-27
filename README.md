@@ -36,6 +36,21 @@ jq は不要です（gh に内蔵の `--jq` を使います）。
 grep '"axios"' out/dependencies.csv
 ```
 
+## テスト
+
+[bats-core](https://github.com/bats-core/bats-core) と shellcheck を使います。`test/bin/gh` は本物の GitHub に通信しない偽の gh で、`test/fixtures/` のファイルを返します（jq が必要です）。push と pull request のたびに GitHub Actions でも実行されます。
+
+```bash
+shellcheck collect-deps.sh test/bin/gh
+bats test/
+```
+
+Windows で手元に bats や jq が無い場合は、Docker で CI と同じ環境を使えます。
+
+```bash
+docker run --rm -v "$PWD:/work" -w /work ubuntu:24.04 bash -c 'apt-get update -qq && apt-get install -y -qq bats jq shellcheck >/dev/null && shellcheck collect-deps.sh test/bin/gh && bats test/'
+```
+
 ## 制約
 
 - **HTTP 404**: そのリポジトリで Dependency graph が無効か、対応する依存ファイルがありません。private リポジトリは Settings → Code security で Dependency graph を有効にしてください（org 単位で一括有効化もできます）。

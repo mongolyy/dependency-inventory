@@ -1,0 +1,11 @@
+{
+  "sbom": {
+    "SPDXID": "SPDXRef-DOCUMENT",
+    "packages": [
+      { "SPDXID": "SPDXRef-github-mongolyy-repo-empty-main", "name": "com.github.mongolyy/repo-empty", "versionInfo": "main" }
+    ],
+    "relationships": [
+      { "relationshipType": "DESCRIBES", "spdxElementId": "SPDXRef-DOCUMENT", "relatedSpdxElement": "SPDXRef-github-mongolyy-repo-empty-main" }
+    ]
+  }
+}

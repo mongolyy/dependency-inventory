@@ -1,0 +1,20 @@
+{
+  "sbom": {
+    "SPDXID": "SPDXRef-DOCUMENT",
+    "packages": [
+      { "SPDXID": "SPDXRef-github-my-org-tool-main", "name": "com.github.my-org/tool", "versionInfo": "main" },
+      {
+        "SPDXID": "SPDXRef-go-cobra",
+        "name": "github.com/spf13/cobra",
+        "versionInfo": "1.8.0",
+        "licenseConcluded": "Apache-2.0",
+        "externalRefs": [
+          { "referenceCategory": "PACKAGE-MANAGER", "referenceType": "purl", "referenceLocator": "pkg:golang/github.com/spf13/cobra@1.8.0" }
+        ]
+      }
+    ],
+    "relationships": [
+      { "relationshipType": "DESCRIBES", "spdxElementId": "SPDXRef-DOCUMENT", "relatedSpdxElement": "SPDXRef-github-my-org-tool-main" }
+    ]
+  }
+}

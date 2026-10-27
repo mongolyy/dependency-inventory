@@ -1,0 +1,40 @@
+{
+  "sbom": {
+    "SPDXID": "SPDXRef-DOCUMENT",
+    "packages": [
+      {
+        "SPDXID": "SPDXRef-github-mongolyy-repo-a-main",
+        "name": "com.github.mongolyy/repo-a",
+        "versionInfo": "main",
+        "externalRefs": [
+          { "referenceCategory": "PACKAGE-MANAGER", "referenceType": "purl", "referenceLocator": "pkg:github/mongolyy/repo-a@main" }
+        ]
+      },
+      {
+        "SPDXID": "SPDXRef-npm-axios-1.6.0",
+        "name": "axios",
+        "versionInfo": "1.6.0",
+        "licenseConcluded": "MIT",
+        "externalRefs": [
+          { "referenceCategory": "PACKAGE-MANAGER", "referenceType": "purl", "referenceLocator": "pkg:npm/axios@1.6.0" }
+        ]
+      },
+      {
+        "SPDXID": "SPDXRef-pip-requests-2.31.0",
+        "name": "requests",
+        "versionInfo": "2.31.0",
+        "externalRefs": [
+          { "referenceCategory": "PACKAGE-MANAGER", "referenceType": "purl", "referenceLocator": "pkg:pypi/requests@2.31.0" }
+        ]
+      },
+      {
+        "SPDXID": "SPDXRef-unknown-mystery",
+        "name": "mystery"
+      }
+    ],
+    "relationships": [
+      { "relationshipType": "DESCRIBES", "spdxElementId": "SPDXRef-DOCUMENT", "relatedSpdxElement": "SPDXRef-github-mongolyy-repo-a-main" },
+      { "relationshipType": "DEPENDS_ON", "spdxElementId": "SPDXRef-github-mongolyy-repo-a-main", "relatedSpdxElement": "SPDXRef-npm-axios-1.6.0" }
+    ]
+  }
+}

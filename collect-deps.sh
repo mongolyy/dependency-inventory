@@ -33,7 +33,8 @@ ERR="$OUT_DIR/errors.csv"
 echo 'owner,repo,ecosystem,package,version,purl,license' > "$CSV"
 echo 'owner,repo,reason' > "$ERR"
 
-list_flags=(--limit 1000 --json name -q '.[].name')
+# gh repo list は --limit の件数までしか返さないので、実質無制限にしておく
+list_flags=(--limit 1000000 --json name -q '.[].name')
 [ "${INCLUDE_FORKS:-0}" = 1 ] || list_flags+=(--source)
 [ "${INCLUDE_ARCHIVED:-0}" = 1 ] || list_flags+=(--no-archived)
 

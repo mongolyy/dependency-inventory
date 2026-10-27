@@ -1,0 +1,7 @@
+version: 2
+updates:
+  # ワークフローで使う action（コミットハッシュで固定）を更新する
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

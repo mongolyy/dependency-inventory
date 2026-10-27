@@ -80,3 +80,9 @@ setup() {
   [ "$(wc -l < "$OUT_DIR/dependencies.csv")" -eq 4 ]
   [ "$(wc -l < "$OUT_DIR/errors.csv")" -eq 2 ]
 }
+
+@test "1000 件を超える org でもリポジトリ一覧を途中で打ち切らない" {
+  "$SCRIPT" mongolyy 2>/dev/null
+  run grep -o -- '--limit [0-9]*' "$GH_CALLS"
+  [ "${output#--limit }" -ge 1000000 ]
+}
